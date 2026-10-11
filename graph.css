@@ -1,0 +1,45 @@
+/* Growth Atlas — Obsidian-inspired interactive knowledge graph */
+.atlas-graph-section{margin:0 0 65px}
+.atlas-graph-heading{display:flex;justify-content:space-between;align-items:end;gap:22px;margin:0 0 20px}
+.atlas-graph-heading .atlas-graph-eyebrow{font-size:11px;letter-spacing:.13em;font-weight:600;color:#86868b;margin:0 0 8px}
+.atlas-graph-heading h3{font-size:clamp(30px,3.5vw,46px);font-weight:600;letter-spacing:-.045em;margin:0;line-height:1.1;color:#1d1d1f}
+.atlas-graph-heading p{margin:10px 0 0;font-size:13px;color:#6e6e73;line-height:1.7;max-width:650px}
+.atlas-graph-heading .atlas-graph-meta{font-size:11px;color:#86868b;white-space:nowrap}
+.atlas-graph-shell{color:#eef0fb;background:#111521;border:1px solid #222739;border-radius:22px;box-shadow:0 25px 70px rgba(15,22,39,.11);overflow:hidden}
+.atlas-graph-toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:19px 22px 15px;border-bottom:1px solid rgba(220,224,245,.07);flex-wrap:wrap}
+.atlas-graph-brand{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:630;letter-spacing:-.015em;color:#f5f5fa}
+.atlas-graph-brand-dot{height:8px;width:8px;display:block;border-radius:50%;background:#91b0ff;box-shadow:0 0 15px #84a4fc}
+.atlas-graph-actions{display:flex;align-items:center;gap:7px}
+.atlas-graph-search{width:186px;height:35px;font-size:12px;border:1px solid #3a4055;border-radius:9px;background:#1a2030;color:#f6f6fb;padding:0 11px;outline:none;transition:border .2s}
+.atlas-graph-search::placeholder{color:#939bb2}
+.atlas-graph-search:focus{border-color:#83a6f4;box-shadow:0 0 0 2px #83a6f42b}
+.atlas-graph-btn{height:35px;min-width:35px;padding:0 10px;border-radius:9px;border:1px solid #3a4055;background:#202638;color:#e3e7f7;font-size:13px;cursor:pointer;transition:background .2s}
+.atlas-graph-btn:hover{background:#303a51}
+.atlas-graph-btn:focus-visible,.atlas-graph-search:focus-visible,.atlas-graph-chip:focus-visible,.atlas-graph-entry:focus-visible{outline:2px solid #93b7ff;outline-offset:2px}
+.atlas-graph-viewport{position:relative;height:510px;overflow:hidden;background:radial-gradient(ellipse 58% 70% at 50% 45%,#1b2235 0%,#111521 75%)}
+#atlasGraphCanvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#atlasGraphCanvas:active{cursor:grabbing}
+.atlas-graph-help{position:absolute;bottom:17px;left:19px;pointer-events:none;font-size:11px;line-height:1.5;color:#8893ab;background:#111521b5;padding:7px 10px;border-radius:8px;backdrop-filter:blur(8px)}
+.atlas-graph-legend{display:flex;gap:7px;flex-wrap:wrap;padding:13px 19px 17px;border-top:1px solid rgba(220,224,245,.07)}
+.atlas-graph-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid transparent;border-radius:100px;color:#aeb5c9;background:transparent;padding:6px 10px;font-size:11px;cursor:pointer}
+.atlas-graph-chip:hover,.atlas-graph-chip[aria-pressed=true]{border-color:#414b66;color:#fff;background:#242b3d}
+.atlas-graph-chip i{height:7px;width:7px;border-radius:50%;display:block;background:var(--graph-category-color)}
+.atlas-graph-detail{border-top:1px solid #272e43;background:#171c2a;display:flex;align-items:start;gap:18px;justify-content:space-between;padding:17px 22px;min-height:74px}
+.atlas-graph-detail-title{font-size:13px;font-weight:620;color:#eff2fa;margin:0 0 4px}
+.atlas-graph-detail-summary{font-size:12px;color:#a2adc6;line-height:1.65}
+.atlas-graph-detail-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.atlas-graph-entry{background:#252d40;border:1px solid #374258;color:#d5e4ff;border-radius:8px;padding:6px 9px;cursor:pointer;font-size:11px;text-align:left}
+.atlas-graph-entry:hover{border-color:#749de1;background:#303f5a}
+.atlas-graph-empty{color:#acb4c6;font-size:12px}
+@media(max-width:780px){
+ .atlas-graph-heading{flex-direction:column;align-items:start;gap:7px}
+ .atlas-graph-shell{border-radius:16px}
+ .atlas-graph-toolbar{padding:14px 14px 12px}
+ .atlas-graph-search{width:145px}
+ .atlas-graph-viewport{height:420px}
+ .atlas-graph-detail{padding:15px 14px}
+ .atlas-graph-legend{padding:10px 12px 13px}
+ .atlas-graph-help{bottom:10px;left:10px;font-size:10px}
+}
+@media(max-width:430px){.atlas-graph-search{width:105px}.atlas-graph-btn{min-width:32px;padding:0 8px}.atlas-graph-viewport{height:385px}.atlas-graph-actions{gap:4px}}
+@media(prefers-reduced-motion:reduce){.atlas-graph-btn,.atlas-graph-chip,.atlas-graph-search{transition:none}}
