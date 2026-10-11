@@ -52,7 +52,28 @@
       .footer-inner{flex-direction:column;gap:7px}
     }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
-  </style>
+  
+/* MATCHED SITEWIDE VISUAL SYSTEM / APPLE.COM-INSPIRED */
+.global-nav{height:48px;background:rgba(22,22,23,.96);border-bottom:0;color:#f5f5f7}
+.global-nav__inner{height:48px;max-width:1360px}
+.global-nav__text{font-size:13px;font-weight:650;color:#f5f5f7}
+.global-nav__minor{color:#c5c5c9;font-size:11px}
+.product-header{max-width:1360px;min-height:59px;border-bottom:1px solid #e5e5e7}
+.product-name{font-size:19px;font-weight:675}
+.product-label{font-size:12px;color:#86868b}
+main{padding-top:clamp(103px,15vh,172px)}
+.signin{max-width:445px;animation:signInRise .72s cubic-bezier(.22,1,.36,1) both}
+h1{font-size:clamp(36px,4vw,48px);font-weight:685;letter-spacing:-.055em}
+.subtitle{font-size:17px;margin:17px 0 47px}
+.field{height:60px;border-radius:13px;transition:border-color .25s,box-shadow .25s}
+.field:focus-within{box-shadow:0 0 0 4px rgba(0,113,227,.11)}
+.submit{transition:background .24s,color .24s,transform .3s cubic-bezier(.22,1,.36,1)}
+.submit:hover{transform:translateX(2px)}
+@keyframes signInRise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@media(max-width:600px){.global-nav__inner{padding:0 20px}.product-header{padding:0 20px}.signin{width:100%}main{padding:90px 24px 60px}h1{font-size:36px}.subtitle{font-size:15px;margin-bottom:41px}}
+@media(prefers-reduced-motion:reduce){.signin{animation:none}.submit{transition:none}}
+
+</style>
 </head>
 <body>
   <header>
