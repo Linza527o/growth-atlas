@@ -1,83 +1,88 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#ffffff">
-  <title>登录 · Growth Atlas</title>
+  <meta name="robots" content="noindex,nofollow">
+  <title>登录 Growth Atlas</title>
   <style>
-    :root{--ink:#1d1d1f;--secondary:#6e6e73;--line:#d2d2d7;--blue:#0071e3}
-    *{box-sizing:border-box}
-    html{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#fff;color:var(--ink);-webkit-font-smoothing:antialiased}
-    body{min-height:100svh;margin:0;display:flex;flex-direction:column}
+    :root{--ink:#1d1d1f;--muted:#6e6e73;--subtle:#86868b;--line:#d2d2d7;--blue:#0071e3}
+    *,*::before,*::after{box-sizing:border-box}
+    html{min-height:100%;background:#fff;-webkit-font-smoothing:antialiased}
+    body{margin:0;min-height:100svh;display:flex;flex-direction:column;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
     button,input{font:inherit}
     button{cursor:pointer}
-    button:focus-visible,input:focus-visible{outline:3px solid #87bfff;outline-offset:3px}
-    .topbar{width:100%;border-bottom:1px solid #f0f0f2}
-    .topbar-inner{height:62px;max-width:1100px;margin:auto;padding:0 36px;display:flex;align-items:center;justify-content:space-between}
-    .wordmark{display:flex;gap:9px;align-items:center;font-size:16px;font-weight:650;letter-spacing:-.035em}
-    .wordmark-icon{display:grid;place-items:center;width:25px;height:25px;background:#1d1d1f;border-radius:7px;color:#fff;font:18px Georgia,serif}
-    .topbar-note{font-size:12px;color:#86868b}
-    main{flex:1;display:flex;justify-content:center;align-items:center;padding:50px 24px 75px}
-    .login{width:100%;max-width:406px;text-align:center}
-    .mark{height:64px;width:64px;margin:0 auto 28px;background:linear-gradient(145deg,#a2c6ff,#386be1 65%,#6753c8);border-radius:17px;box-shadow:0 11px 28px rgba(51,104,211,.13);color:white;display:grid;place-items:center;font:38px Georgia,serif}
-    h1{font-size:clamp(31px,5vw,42px);line-height:1.13;font-weight:700;letter-spacing:-.048em;margin:0}
-    .subtitle{margin:17px auto 37px;max-width:390px;color:var(--secondary);font-size:15px;line-height:1.65}
-    form{text-align:left;width:100%}
-    label{display:block;margin:0 0 11px;font-size:12px;font-weight:650;color:#424245}
-    .field{display:flex;align-items:center;border:1px solid var(--line);border-radius:14px;height:57px;background:#fff;transition:border .15s,box-shadow .15s}
-    .field:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,113,227,.10)}
-    input{flex:1;width:100%;min-width:0;height:100%;padding:0 16px;border:0;border-radius:14px;background:transparent;color:var(--ink);font-size:16px;outline:none}
-    input::placeholder{color:#9b9ba0}
+    button:focus-visible,input:focus-visible{outline:3px solid #80baff;outline-offset:3px}
+    .global-nav{height:45px;background:#f5f5f7;border-bottom:1px solid rgba(0,0,0,.04)}
+    .global-nav__inner{height:100%;max-width:1040px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+    .global-nav__text{font-size:12px;letter-spacing:-.015em;font-weight:600;color:#4b4b4f}
+    .global-nav__minor{font-size:11px;color:#86868b}
+    .product-header{max-width:1040px;margin:0 auto;width:100%;min-height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #dedee2}
+    .product-name{font-size:21px;font-weight:650;letter-spacing:-.035em}
+    .product-label{font-size:12px;color:var(--muted)}
+    main{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:clamp(95px,14vh,158px) 24px 76px}
+    .signin{width:100%;max-width:430px;text-align:center}
+    h1{font-size:clamp(34px,4.3vw,43px);line-height:1.16;font-weight:665;letter-spacing:-.05em;margin:0}
+    .subtitle{font-size:17px;line-height:1.6;color:var(--muted);margin:15px 0 43px}
+    form{margin:0;text-align:left}
+    .field{height:57px;border:1px solid #86868b;border-radius:12px;display:flex;align-items:center;background:#fff;transition:border-color .15s,box-shadow .15s}
+    .field:focus-within{border:2px solid var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,.10)}
+    input{background:transparent;border:0;outline:none!important;height:100%;flex:1;min-width:0;width:100%;padding:0 16px;font-size:17px;letter-spacing:0;color:var(--ink)}
+    input::placeholder{color:#86868b;opacity:1}
     input:focus-visible{outline:0}
-    .toggle{height:40px;padding:0 15px;border:0;background:none;color:#0066cc;font-size:13px;white-space:nowrap}
-    .toggle:hover{text-decoration:underline}
-    .submit{display:block;width:100%;border:0;border-radius:999px;background:var(--blue);color:white;font-size:16px;font-weight:600;min-height:49px;padding:12px 20px;margin-top:19px;transition:background .15s}
-    .submit:hover{background:#0077ed}
-    .submit:active{background:#0066cc}
-    .submit:disabled{opacity:.65;cursor:wait}
-    .error{min-height:26px;color:#bf333b;font-size:13px;line-height:1.5;margin-top:12px;text-align:center}
-    .footnote{text-align:center;font-size:12px;color:#86868b;margin-top:13px}
-    footer{border-top:1px solid #f0f0f2;color:#86868b;padding:19px 36px;text-align:center;font-size:11px;letter-spacing:.01em}
+    .toggle{border:0;background:transparent;color:#6e6e73;font-size:12px;font-weight:500;padding:9px 8px;white-space:nowrap}
+    .toggle:hover{color:#0066cc}
+    .submit{flex-shrink:0;display:grid;place-items:center;border:1.5px solid #8d8d92;background:#fff;color:#6e6e73;width:31px;height:31px;border-radius:100%;padding:0;margin:0 12px 0 3px;transition:background .15s,color .15s,border-color .15s}
+    .submit::after{content:"";display:block;width:10px;height:10px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);margin-left:-4px}
+    .submit:hover{background:#1d1d1f;border-color:#1d1d1f;color:#fff}
+    .submit:disabled{opacity:.55;cursor:wait}
+    .submit .submit-copy{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .error{min-height:22px;margin-top:12px;font-size:13px;color:#bf333b;text-align:left}
+    .help{font-size:13px;line-height:1.65;color:var(--subtle);margin:12px 0 0;text-align:center}
+    footer{background:#f5f5f7;margin-top:auto;padding:20px 24px;color:#6e6e73;font-size:11px}
+    .footer-inner{max-width:1040px;margin:auto;display:flex;justify-content:space-between;gap:14px}
     @media(max-width:600px){
-      .topbar-inner{height:55px;padding:0 22px}
-      .topbar-note{font-size:11px}
-      main{padding:55px 27px 70px;align-items:flex-start}
-      .mark{margin-bottom:29px}
-      h1{font-size:32px}
-      .subtitle{font-size:14px;margin-bottom:34px}
-      footer{padding:17px 20px}
+      .product-header{min-height:58px}
+      .product-name{font-size:19px}
+      main{padding:105px 24px 66px}
+      h1{font-size:34px}
+      .subtitle{font-size:16px;margin:15px 0 38px}
+      .footer-inner{flex-direction:column;gap:7px}
     }
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="wordmark"><span class="wordmark-icon" aria-hidden="true">G</span><span>Growth Atlas</span></div>
-      <span class="topbar-note">Personal Journal</span>
+  <header>
+    <div class="global-nav">
+      <div class="global-nav__inner">
+        <span class="global-nav__text">Growth Atlas</span>
+        <span class="global-nav__minor">Personal Journal</span>
+      </div>
+    </div>
+    <div class="product-header">
+      <span class="product-name">Growth Atlas</span>
+      <span class="product-label">个人成长日历</span>
     </div>
   </header>
   <main>
-    <section class="login" aria-labelledby="welcome">
-      <div class="mark" aria-hidden="true">G</div>
-      <h1 id="welcome">你的成长，尽在这里。</h1>
-      <p class="subtitle">记录学习、科研、项目与生活。<br>输入访问密码，继续你的成长日历。</p>
+    <section class="signin" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">登录 Growth Atlas</h1>
+      <p class="subtitle">输入密码，继续查看你的成长日历。</p>
       <form id="loginForm">
-        <label for="password">访问密码</label>
         <div class="field">
-          <input id="password" type="password" placeholder="请输入密码" autocomplete="current-password" required autofocus>
+          <input id="password" type="password" placeholder="密码" aria-label="访问密码" autocomplete="current-password" required autofocus>
           <button class="toggle" id="toggle" type="button" aria-label="显示或隐藏密码">显示</button>
+          <button class="submit" id="submit" type="submit" aria-label="解锁日历"><span class="submit-copy">继续</span></button>
         </div>
-        <button class="submit" id="submit" type="submit">继续 <span aria-hidden="true">→</span></button>
         <div class="error" id="error" aria-live="polite"></div>
       </form>
-      <p class="footnote">个人成长记录 · 始于 2026 年 8 月</p>
+      <p class="help">仅供个人访问</p>
     </section>
   </main>
-  <footer>Growth Atlas © 2026</footer>
+  <footer><div class="footer-inner"><span>© 2026 Growth Atlas</span><span>记录每一天的学习与成长。</span></div></footer>
 <script>
 const ACCESS_HASH="3f55f98f2811bb4a04f81c5dff5974bf2f50a86e8c1baba782991a0f6e214bde",ACCESS_KEY="growthAtlasGate";
 /* Always show password prompt on entering the root; reset previous tab unlock. */
