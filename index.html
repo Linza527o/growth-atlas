@@ -43,7 +43,8 @@ footer{border-top:1px solid #e4eae5;padding-top:19px;color:#99aaa2;font-size:10p
 </main>
 <script>
 const ACCESS_HASH="3f55f98f2811bb4a04f81c5dff5974bf2f50a86e8c1baba782991a0f6e214bde",ACCESS_KEY="growthAtlasGate";
-try{if(sessionStorage.getItem(ACCESS_KEY)===ACCESS_HASH)location.replace("./calendar.html")}catch(err){}
+/* Always show password prompt on entering the root; reset previous tab unlock. */
+try{sessionStorage.removeItem(ACCESS_KEY)}catch(err){}
 document.getElementById("toggle").onclick=()=>{const f=document.getElementById("password");f.type=f.type==="password"?"text":"password";document.getElementById("toggle").textContent=f.type==="password"?"显示":"隐藏"};
 document.getElementById("loginForm").addEventListener("submit",async e=>{
  e.preventDefault();
