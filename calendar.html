@@ -103,6 +103,149 @@
 @media(max-width:1200px){.main-grid{grid-template-columns:minmax(0,1fr)}.day{min-height:200px;padding:11px}}
 @media(max-width:960px){.calendar,.week-head{min-width:1050px}}
 @media(max-width:660px){.day{min-height:180px;padding:11px;gap:8px}.cal-topic{font-size:11px}.is-other .cal-topic{font-size:10px}.day-level{font-size:10px}}
+
+/* APPLE_INSPIRED_SIMPLIFIED_V1
+   Original calendar data, event labels, interactions and storage are unchanged.
+   A restrained editorial style, not Apple branding or copied artwork. */
+:root {
+  --bg:#f5f5f7; --card:#ffffff; --ink:#1d1d1f; --nav:#ffffff;
+  --muted:#6e6e73; --stroke:#e5e5e7; --accent:#0071e3;
+  --accent-soft:#eaf3ff; --shadow:none; --gold:#bf8d32;
+  --study:#2967cf; --research:#9155ac; --build:#168a71;
+  --club:#c0802d; --personal:#cc6275;
+}
+body{background:var(--bg);color:var(--ink);font:14px/1.58 -apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+.shell{display:block;min-height:100vh}
+.sidebar{
+  position:sticky;top:0;z-index:40;height:auto;width:100%;display:flex;
+  align-items:center;flex-direction:row;gap:24px;padding:12px clamp(18px,4vw,64px);
+  background:rgba(255,255,255,.94);color:var(--ink);
+  border-bottom:1px solid rgba(0,0,0,.08);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+}
+.sidebar .brand{display:flex;align-items:center;gap:11px;padding:0;flex-shrink:0}
+.brand-mark{width:32px;height:32px;margin:0;border:0;background:#1d1d1f;color:white;border-radius:9px;font-size:23px}
+.sidebar .brand h2{font-family:inherit;font-size:16px;font-weight:700;color:#1d1d1f;letter-spacing:-.025em;margin:0;line-height:1.2}
+.sidebar .brand .eyebrow,.sidebar .brand p,.sidebar-bottom,.sidebar > div:nth-of-type(2){display:none}
+.side-menu{margin-left:auto;display:flex;flex-wrap:nowrap;gap:3px;align-items:center}
+.navbtn{width:auto;border-radius:8px;color:#55555b;font-size:13px;padding:9px 14px;gap:0;white-space:nowrap}
+.navbtn .glyph{display:none}
+.navbtn.active{background:#f5f5f7;color:#1d1d1f;font-weight:680}
+.navbtn:hover{background:#f5f5f7;color:#1d1d1f}
+#atlasLogout{
+  margin:0!important;width:auto!important;flex-shrink:0;
+  border:1px solid #d2d2d7!important;border-radius:999px!important;
+  padding:8px 15px!important;background:#fff!important;
+  color:#55555b!important;font-size:12px!important
+}
+.content{padding:36px clamp(20px,4.3vw,76px) 65px;max-width:1800px;margin:0 auto}
+.topline{margin:0 0 7px}
+.topline .kicker{color:#86868b;font-size:10px;letter-spacing:.13em}
+.date-small{font-size:12px;color:#86868b}
+.hero{background:transparent;border:0;border-radius:0;box-shadow:none;min-height:0;padding:24px 0 31px;color:#1d1d1f;justify-content:flex-start}
+.hero:before,.hero:after,.hero .orb{display:none!important}
+.hero h1{font-family:inherit;font-weight:720;font-size:clamp(34px,4.15vw,60px);line-height:1.09;letter-spacing:-.052em;margin:9px 0 16px;max-width:1020px}
+.hero small{font-size:11px;letter-spacing:.10em;color:#86868b}
+.hero p{color:#6e6e73;line-height:1.6;font-size:15px;max-width:800px}
+.metrics{border:1px solid #e5e5e7;border-radius:17px;background:#e5e5e7;overflow:hidden;gap:1px;margin:0 0 39px}
+.metric{border:0;border-radius:0;box-shadow:none;padding:20px 24px;background:white}
+.metric .value{font-family:inherit;font-size:28px;font-weight:670;letter-spacing:-.035em;color:#1d1d1f}
+.metric label{color:#86868b;font-size:11px;margin-top:3px}
+.section-head{margin:0 0 16px;align-items:baseline}
+.section-head h2{font-family:inherit;font-size:27px;font-weight:680;letter-spacing:-.038em}
+.section-head .muted{color:#86868b;font-size:11px}
+.toolbar{border:0;box-shadow:none;border-radius:0;background:transparent;padding:0;margin-bottom:14px}
+.month-name{font-family:inherit;font-size:20px;font-weight:650;letter-spacing:-.03em}
+.small-btn,.period-switch button{background:#fff;border:1px solid #d2d2d7;border-radius:999px;padding:8px 13px;font-weight:570;color:#3a3a3c}
+.small-btn:hover,.period-switch button:hover{background:#ebebed}
+.primary{background:#0071e3;border-radius:999px;font-weight:620;padding:10px 17px}
+.primary:hover{background:#0065cd}
+.searchbox{background:#fff;border:1px solid #d2d2d7;border-radius:10px;color:#1d1d1f}
+.atlas-filters{margin:0 0 18px}
+.atlas-filters summary{list-style:none;display:inline-flex;align-items:center;gap:12px;cursor:pointer;color:#0066cc;font-size:12px;font-weight:620;padding:8px 0}
+.atlas-filters summary::-webkit-details-marker{display:none}
+.atlas-filters summary:before{content:"⌄";font-size:16px;line-height:1;display:inline-block;transition:transform .15s}
+.atlas-filters[open] summary:before{transform:rotate(180deg)}
+.filter-summary-note{font-weight:400;color:#86868b}
+.atlas-filters .filterbar{margin:8px 0 12px}
+.atlas-filters .subject-filter{background:#fff;border-color:#e5e5e7;border-radius:12px;margin:0 0 10px}
+.chip{background:#fff;border-color:#d2d2d7;color:#66666a;border-radius:999px}
+.chip.active{background:#1d1d1f;color:white;border-color:#1d1d1f}
+.subject-chip{background:#fff;border:1px solid #e5e5e7;border-radius:999px}
+.subject-chip.active{background:#e9f3ff;border-color:#97c8f4;color:#0066cc;box-shadow:none}
+.main-grid{gap:16px}
+.calendar-wrap{border:1px solid #e5e5e7;border-radius:17px;box-shadow:none;background:white}
+.calendar,.week-head{min-width:1050px}
+.week-head{background:#fbfbfd;border-bottom:1px solid #e5e5e7}
+.week-head div{font-size:11px;color:#86868b;padding:12px 0;font-weight:600}
+.day{min-height:222px;background:#fff;border-right:1px solid #ebebed;border-bottom:1px solid #ebebed;padding:12px;gap:9px;transition:background .15s}
+.day.study-few{background:#fcfcff}
+.day.study-some{background:#f5f9ff}
+.day.study-many{background:#eaf3ff}
+.day:hover{background:#eef5ff}
+.day.selected{background:#e5f1ff;box-shadow:inset 0 0 0 2px #0071e3}
+.day.outside{background:#fafafa}
+.day .num{font-family:inherit;font-weight:650;font-size:13px;border-radius:50%}
+.day.today .num{background:#0071e3;color:white}
+.day-level{background:#e8f2ff;color:#1769bc;border-radius:999px}
+.day-level.few{background:#edf2f8;color:#627487}
+.day-level.some{background:#d7eaff;color:#1d65aa}
+.day-level.many{background:#2376cf;color:white}
+.day-entries{gap:11px}
+.cal-event{border-left-width:2px;padding-left:7px}
+.cal-kind{font-size:10px;letter-spacing:0;font-weight:700}
+.cal-topic{font-size:11px;color:#26262a;line-height:1.48}
+.is-other .cal-topic{color:#6e6e73;font-size:10px}
+.detail,.timeline,.insight-card,.weekReview,.utility,.study-kpi{background:#fff;border:1px solid #e5e5e7;border-radius:15px;box-shadow:none}
+.detail{min-height:0;padding:22px}
+.detail h3,.learning-heading h3,.study-grid .chart-head h3{font-family:inherit;letter-spacing:-.035em;font-weight:670}
+.detail h3{font-size:22px}
+.entry{border-bottom:1px solid #f0f0f2}
+.timeline{padding:21px}
+.timeline-pill{border-radius:8px}
+.learning-heading h3{font-size:30px}
+.learning-heading p,.chart-head p{color:#86868b}
+.study-kpi{padding:18px 21px}
+.study-kpi span{font-family:inherit;font-size:28px;font-weight:680;color:#1d1d1f}
+.chart-head h3,.study-grid .chart-head h3{font-family:inherit;font-weight:670}
+.insight-card{padding:23px}
+.period-switch{background:#ededf0}
+.period-switch button{border:0;background:transparent}
+.period-switch button.active{background:#fff;color:#1d1d1f;box-shadow:0 1px 5px #00000010}
+.subbar{background:#eff0f2}
+.trend-fill{background:#5e9ce9}
+.heat-day.h1,.heat-key .h1{background:#dcecff}
+.heat-day.h2,.heat-key .h2{background:#a7cfff}
+.heat-day.h3,.heat-key .h3{background:#619fe9}
+.heat-day.h4,.heat-key .h4{background:#2374c5}
+.footer{color:#86868b}
+@media(max-width:950px){
+ .sidebar{height:auto;position:sticky;top:0;display:flex;flex-wrap:wrap;gap:9px 18px;padding:12px 20px}
+ .side-menu{order:3;flex-basis:100%;margin:0;overflow-x:auto}
+ .navbtn{padding:8px 12px;font-size:12px}
+ #atlasLogout{margin-left:auto!important;padding:6px 12px!important}
+ .content{padding:25px 20px 54px}
+ .hero{padding:16px 0 24px}
+ .hero h1{font-size:clamp(30px,6vw,45px)}
+ .metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-bottom:26px}
+ .metric{padding:17px 17px}
+ .section-head{align-items:flex-start}
+}
+@media(max-width:560px){
+ .sidebar{padding:10px 14px}
+ .content{padding:22px 14px 44px}
+ .sidebar .brand h2{font-size:15px}
+ .section-head h2{font-size:23px}
+ .section-head .muted{font-size:10px}
+ .hero h1{font-size:32px}
+ .hero p{font-size:13px}
+ .metric .value{font-size:23px}
+ .toolbar-actions{width:100%}
+ .searchbox{width:100%}
+ .calendar,.week-head{min-width:1050px}
+ .atlas-filters summary{font-size:12px}
+ .day{min-height:195px}
+}
+
 </style>
 </head>
 <body>
@@ -125,7 +268,7 @@
  <section class="metrics"><div class="metric"><div class="value" id="statDays">—</div><label>有活动记录的日期</label></div><div class="metric"><div class="value" id="statItems">—</div><label>全部活动条目</label></div><div class="metric"><div class="value" id="statStudyDays">—</div><label>学习活跃天数</label></div><div class="metric"><div class="value" id="statStudyTopics">—</div><label>学习主题记录</label></div></section><div class="sr-only"><span id="statDomains"></span><span id="statMonth"></span></div>
  <div class="section-head"><h2 id="paneTitle">成长月历</h2><span class="muted" id="paneHint">每天完整列出学习知识点与其他活动 · 可横向滚动</span></div>
  <div class="toolbar"><div class="month-control"><button class="small-btn" id="prevMonth" aria-label="上个月">‹</button><div class="month-name" id="monthName"></div><button class="small-btn" id="nextMonth" aria-label="下个月">›</button><button class="small-btn" id="goToday">今天</button></div><div class="toolbar-actions"><input class="searchbox" id="search" placeholder="搜索学科、项目或关键词" aria-label="搜索记录"/><button class="primary" id="newEntry">＋ 新增记录</button></div></div>
- <div class="filterbar" id="filters"></div><div id="subjectFilters" class="subject-filter"><span class="subject-caption">学习学科</span><div class="subject-filter-buttons" id="subjectFilterButtons"></div><span class="subject-explain">筛选学习条目，其它活动保留</span></div>
+ <details class="atlas-filters"><summary>筛选内容 <span class="filter-summary-note">活动类别 · 学科</span></summary><div class="filterbar" id="filters"></div><div id="subjectFilters" class="subject-filter"><span class="subject-caption">学习学科</span><div class="subject-filter-buttons" id="subjectFilterButtons"></div><span class="subject-explain">筛选学习条目，其它活动保留</span></div></details>
  <section class="pane active" id="pane-calendar"><div class="main-grid"><div class="calendar-wrap"><div class="week-head"><div>周日</div><div>周一</div><div>周二</div><div>周三</div><div>周四</div><div>周五</div><div>周六</div></div><div class="calendar" id="calendar"></div></div><aside class="detail" id="dayDetail"></aside></div></section>
  <section class="pane" id="pane-timeline"><div class="timeline" id="timeline"></div></section>
  <section class="pane" id="pane-insights">
