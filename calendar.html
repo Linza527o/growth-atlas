@@ -343,6 +343,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 }
 
 </style>
+<link rel="stylesheet" href="./graph.css?v=1">
 </head>
 <body>
 <div class="shell">
@@ -389,6 +390,35 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
  <section class="pane active" id="pane-calendar"><div class="main-grid"><div class="calendar-wrap"><div class="week-head"><div>周日</div><div>周一</div><div>周二</div><div>周三</div><div>周四</div><div>周五</div><div>周六</div></div><div class="calendar" id="calendar"></div></div><aside class="detail" id="dayDetail"></aside></div></section>
  <section class="pane" id="pane-timeline"><div class="timeline" id="timeline"></div></section>
  <section class="pane" id="pane-insights">
+  <section class="atlas-graph-section" aria-labelledby="atlasGraphTitle">
+    <div class="atlas-graph-heading">
+      <div>
+        <div class="atlas-graph-eyebrow">KNOWLEDGE NETWORK</div>
+        <h3 id="atlasGraphTitle">成长关系图谱。</h3>
+        <p>像 Obsidian 一样探索知识与经历之间的连接。节点和记录关联，新增内容后图谱随之更新。</p>
+      </div>
+      <span class="atlas-graph-meta">LIVE GRAPH · 基于已有记录</span>
+    </div>
+    <div class="atlas-graph-shell">
+      <div class="atlas-graph-toolbar">
+        <div class="atlas-graph-brand"><span class="atlas-graph-brand-dot"></span> Growth Atlas / Graph</div>
+        <div class="atlas-graph-actions">
+          <input id="atlasGraphSearch" class="atlas-graph-search" type="search" placeholder="搜索知识节点…" aria-label="搜索图谱节点" autocomplete="off">
+          <button id="atlasGraphZoomOut" type="button" class="atlas-graph-btn" title="缩小图谱" aria-label="缩小图谱">−</button>
+          <button id="atlasGraphZoomIn" type="button" class="atlas-graph-btn" title="放大图谱" aria-label="放大图谱">＋</button>
+          <button id="atlasGraphReset" type="button" class="atlas-graph-btn" title="恢复默认布局" aria-label="恢复默认布局">↺</button>
+        </div>
+      </div>
+      <div id="atlasGraphViewport" class="atlas-graph-viewport">
+        <canvas id="atlasGraphCanvas" role="img" aria-label="互动式关系图：个人成长节点连接学习、科研、项目、社团和生活，以及它们各自的知识主题。使用下方分类按钮或搜索框选择节点。"></canvas>
+        <div class="atlas-graph-help">拖动节点或画布 · 滚轮缩放 · 点击查看关联记录</div>
+      </div>
+      <div id="atlasGraphLegend" class="atlas-graph-legend" aria-label="选择知识图谱类别"></div>
+      <div id="atlasGraphDetail" class="atlas-graph-detail" aria-live="polite">
+        <span class="atlas-graph-empty">选择节点，查看相关活动与记录日期</span>
+      </div>
+    </div>
+  </section>
   <div class="learning-heading"><div><div class="eyebrow">LEARNING JOURNAL / EVIDENCE-BASED</div><h3>学习投入 · 多还是少？</h3><p>用可核查的学习活跃天数与学习主题数衡量记录密度，不将对话数量当作学习时长。</p></div><div class="period-switch"><button class="active" id="scopeAll">全部时间</button><button id="scopeMonth">当前月份</button></div></div>
   <div class="study-overview"><div class="study-kpi"><span id="overviewStudyDays">—</span><small>有学习记录的天数</small></div><div class="study-kpi"><span id="overviewStudyEntries">—</span><small>学习主题记录数</small></div><div class="study-kpi"><span id="overviewSubjects">—</span><small>涉及学科数</small></div><div class="study-kpi"><span id="overviewCoverage">—</span><small>日历日记录覆盖率</small></div></div>
   <p class="method-note" id="studySpanDesc"></p>
@@ -450,7 +480,7 @@ function notify(m){const t=document.getElementById('toast');t.textContent=m;t.cl
 function matchesEvent(e){return filters.has(e.category)&&(e.category!=='study'||subjectFilter==='all'||canonicalDomain(e.domain||'',e.title)===subjectFilter)&&`${e.title} ${e.domain||''} ${e.detail||''} ${e.source||''}`.toLowerCase().includes(search)}
 function dayEntries(day){return data.filter(e=>e.date===day&&matchesEvent(e)).sort((a,b)=>Object.keys(cats).indexOf(a.category)-Object.keys(cats).indexOf(b.category))}
 function filtered(){return data.filter(matchesEvent)}
-function setPane(p){pane=p;document.querySelectorAll('.pane').forEach(el=>el.classList.toggle('active',el.id==='pane-'+p));document.querySelectorAll('.navbtn').forEach(el=>el.classList.toggle('active',el.dataset.pane===p));const names={calendar:'成长月历',timeline:'活动时间线',insights:'成长图谱',review:'每周复盘'};document.getElementById('paneTitle').textContent=names[p];document.getElementById('subnavView').textContent=names[p];document.getElementById('paneHint').textContent=p==='calendar'?'每天完整列出学习知识点与其他活动 · 可横向滚动':p==='review'?'把日常投入转化为有据可查的进展':'分类查看成长轨迹';render()}
+function setPane(p){pane=p;document.querySelectorAll('.pane').forEach(el=>el.classList.toggle('active',el.id==='pane-'+p));document.querySelectorAll('.navbtn').forEach(el=>el.classList.toggle('active',el.dataset.pane===p));const names={calendar:'成长月历',timeline:'活动时间线',insights:'成长图谱',review:'每周复盘'};document.getElementById('paneTitle').textContent=names[p];document.getElementById('subnavView').textContent=names[p];document.getElementById('paneHint').textContent=p==='calendar'?'每天完整列出学习知识点与其他活动 · 可横向滚动':p==='review'?'把日常投入转化为有据可查的进展':'分类查看成长轨迹';render();if(p==='insights')window.AtlasGraph?.activate()}
 function monthHeading(){document.getElementById('monthName').textContent=`${dateView.getFullYear()} 年 ${String(dateView.getMonth()+1).padStart(2,'0')} 月`}
 function renderStats(){
  document.getElementById('statDays').textContent=new Set(data.map(e=>e.date)).size;
@@ -553,7 +583,7 @@ function renderInsights(){
 }
 function weekBounds(){const s=new Date(weekCursor.getFullYear(),weekCursor.getMonth(),weekCursor.getDate()),end=new Date(s);end.setDate(s.getDate()+6);return [s,end]}
 function renderWeek(){const [s,end]=weekBounds(),a=localDate(s),b=localDate(end);const evs=filtered().filter(e=>e.date>=a&&e.date<=b);const ds=new Set(evs.map(e=>e.date)).size;document.getElementById('reviewRange').textContent=`${s.getMonth()+1} 月 ${s.getDate()} 日 — ${end.getMonth()+1} 月 ${end.getDate()} 日`;document.getElementById('reviewSummary').textContent=`本周共记录 ${evs.length} 项活动，涉及 ${ds} 天。其中学习 ${evs.filter(e=>e.category==='study').length} 项，涉及 ${new Set(evs.filter(e=>e.category==='study').map(e=>e.date)).size} 个学习日；科研 ${evs.filter(e=>e.category==='research').length} 项、工程 ${evs.filter(e=>e.category==='build').length} 项、组织与生活 ${evs.filter(e=>e.category==='club'||e.category==='personal').length} 项。仅统计记录，不将任务自动认定为已完成。`;let html='';for(let n=0;n<7;n++){const d=new Date(s);d.setDate(s.getDate()+n);const iso=localDate(d),entries=evs.filter(e=>e.date===iso);html+=`<div class="review-day"><strong>${iso}</strong><div style="margin-top:4px">${entries.length?entries.map(e=>`<span style="display:block">· ${esc(e.title)}</span>`).join(''):'<span>暂无记录</span>'}</div></div>`}document.getElementById('reviewDays').innerHTML=html}
-function render(){monthHeading();renderStats();renderFilters();renderCalendar();renderDetail();renderTimeline();renderInsights();renderWeek()}
+function render(){monthHeading();renderStats();renderFilters();renderCalendar();renderDetail();renderTimeline();renderInsights();renderWeek();window.AtlasGraph?.refresh()}
 function showModal(id,on){document.getElementById(id).classList.toggle('open',on)}
 function openEditor(e,when){editing=e?.id||null;document.getElementById('editorTitle').textContent=e?'编辑成长记录':'新增成长记录';document.getElementById('entryDate').value=e?.date||when||today();document.getElementById('entryCategory').value=e?.category||'study';document.getElementById('entryDomain').value=e?.category==='study'?'':(e?.domain||'');document.getElementById('studyDomainSelect').value=e?.category==='study'?canonicalDomain(e?.domain||'综合',e?.title||''):'算法与编程';document.getElementById('entryMinutes').value=e?.minutes||'';updateEditorFields();document.getElementById('entryTitle').value=e?.title||'';document.getElementById('entryDetail').value=e?.detail||'';document.getElementById('entryStatus').value=e?.status||'记录';document.getElementById('entrySource').value=e?.source||'手动记录';showModal('editorBackdrop',true);document.getElementById('entryTitle').focus()}
 function updateEditorFields(){const isStudy=document.getElementById('entryCategory').value==='study';document.getElementById('studyDomainWrap').classList.toggle('field-hidden',!isStudy);document.getElementById('entryDomainWrap').classList.toggle('field-hidden',isStudy);document.getElementById('entryMinutesWrap').classList.toggle('field-hidden',!isStudy)}
@@ -635,4 +665,5 @@ init();
   renderActualWeek();
 })();
 </script>
+<script src="./graph.js?v=1"></script>
 </body></html>
