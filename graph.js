@@ -64,6 +64,8 @@ function collect(){
    const rid="n:"+(e.id||[e.date,cat,e.title,i].join("|"));
    const note=node(rid,String(e.title||"活动").slice(0,70),"note",cat,e);
    const group="c:"+cat;
+   const categoryNode=ns.get(group);
+   if(categoryNode&&!categoryNode.records.includes(e))categoryNode.records.push(e);
    let parent=group;
    if(cat==="study"){
       let domain=String(e.domain||"综合");
