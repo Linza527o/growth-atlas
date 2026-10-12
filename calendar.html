@@ -3,7 +3,7 @@
 <head>
 <script>
 /* Visual navigation gate only: GitHub Pages remains public, and repository contents are not encrypted. */
-(function(){try{if(sessionStorage.getItem('growthAtlasGate')!== 'b8f85a901bd8f23020f681f4c160dc1c2487f49b58f9d4b0bd22fbe3a126704a')location.replace('./index.html')}catch(e){location.replace('./index.html')}})();
+(function(){try{if(sessionStorage.getItem('growthAtlasGate')!== 'b8f85a901bd8f23020f681f4c160dc1c2487f49b58f9d4b0bd22fbe3a126704a')location.replace('./index.html'+(new URLSearchParams(location.search).get('view')==='insights'?'?view=insights':''))}catch(e){location.replace('./index.html'+(new URLSearchParams(location.search).get('view')==='insights'?'?view=insights':''))}})();
 </script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -343,7 +343,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 }
 
 </style>
-<link rel="stylesheet" href="./graph.css?v=1">
+<link rel="stylesheet" href="./graph.css?v=2">
 </head>
 <body>
 <div class="shell">
@@ -357,7 +357,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
  </nav>
  <div><div class="side-caption">ACTIVITY CATEGORIES</div><div class="legend"><div class="leg"><span class="dot" style="background:var(--study)"></span>课程与学科</div><div class="leg"><span class="dot" style="background:var(--research)"></span>科研与竞赛</div><div class="leg"><span class="dot" style="background:var(--build)"></span>工程与 Codex</div><div class="leg"><span class="dot" style="background:var(--club)"></span>天文社与组织</div><div class="leg"><span class="dot" style="background:var(--personal)"></span>生活与发展</div></div></div>
  <div class="sidebar-bottom"><strong>持续记录，而非追求完美。</strong><p>从 2026 年 8 月 30 日开始。为每次学习、实验、探索与改变留下可追溯的轨迹。</p></div>
-<button type="button" id="atlasLogout" style="margin-top:14px;width:100%;border:1px solid #b7c6bf;border-radius:10px;padding:10px 12px;background:#fffefa;color:#365d55;cursor:pointer" onclick="try{sessionStorage.removeItem('growthAtlasGate')}catch(e){};location.replace('./index.html')">退出日历 · 锁定页面</button>
+<button type="button" id="atlasLogout" style="margin-top:14px;width:100%;border:1px solid #b7c6bf;border-radius:10px;padding:10px 12px;background:#fffefa;color:#365d55;cursor:pointer" onclick="try{sessionStorage.removeItem('growthAtlasGate')}catch(e){};location.replace('./index.html'+(new URLSearchParams(location.search).get('view')==='insights'?'?view=insights':''))">退出日历 · 锁定页面</button>
 </aside>
 <div class="atlas-subnav" aria-label="日历工具栏"><div class="atlas-subnav-inner">
   <span class="atlas-subnav-title">Growth Atlas</span><span class="atlas-subnav-section" id="subnavView">成长月历</span>
@@ -393,30 +393,42 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
   <section class="atlas-graph-section" aria-labelledby="atlasGraphTitle">
     <div class="atlas-graph-heading">
       <div>
-        <div class="atlas-graph-eyebrow">KNOWLEDGE NETWORK</div>
+        <div class="atlas-graph-eyebrow">KNOWLEDGE NETWORK / GLOBAL GRAPH</div>
         <h3 id="atlasGraphTitle">成长关系图谱。</h3>
-        <p>像 Obsidian 一样探索知识与经历之间的连接。节点和记录关联，新增内容后图谱随之更新。</p>
+        <p>以每条活动、每个具体知识点、学科和记录日期为节点，真实记录之间的归属与共现形成连接。悬停查看邻居，点击可进入局部图谱。</p>
       </div>
-      <span class="atlas-graph-meta">LIVE GRAPH · 基于已有记录</span>
+      <span class="atlas-graph-meta" id="atlasGraphMeta">正在生成节点…</span>
     </div>
     <div class="atlas-graph-shell">
       <div class="atlas-graph-toolbar">
-        <div class="atlas-graph-brand"><span class="atlas-graph-brand-dot"></span> Growth Atlas / Graph</div>
+        <div class="atlas-graph-brand"><span class="atlas-graph-brand-dot" aria-hidden="true"></span>
+          <span id="atlasGraphMode">全局图谱</span><span id="atlasGraphCounter" class="atlas-graph-counter"></span>
+        </div>
         <div class="atlas-graph-actions">
-          <input id="atlasGraphSearch" class="atlas-graph-search" type="search" placeholder="搜索知识节点…" aria-label="搜索图谱节点" autocomplete="off">
-          <button id="atlasGraphZoomOut" type="button" class="atlas-graph-btn" title="缩小图谱" aria-label="缩小图谱">−</button>
-          <button id="atlasGraphZoomIn" type="button" class="atlas-graph-btn" title="放大图谱" aria-label="放大图谱">＋</button>
-          <button id="atlasGraphReset" type="button" class="atlas-graph-btn" title="恢复默认布局" aria-label="恢复默认布局">↺</button>
+          <input id="atlasGraphSearch" class="atlas-graph-search" type="search" placeholder="搜索笔记、知识点…" aria-label="搜索图谱节点" autocomplete="off">
+          <button id="atlasGraphZoomOut" type="button" class="atlas-graph-btn" aria-label="缩小图谱" title="缩小">−</button>
+          <button id="atlasGraphZoomIn" type="button" class="atlas-graph-btn" aria-label="放大图谱" title="放大">＋</button>
+          <button id="atlasGraphFit" type="button" class="atlas-graph-btn" aria-label="适应画布大小" title="适应画布">⤢</button>
+          <button id="atlasGraphReset" type="button" class="atlas-graph-btn" aria-label="重置布局与视图" title="重置">↺</button>
+          <button id="atlasGraphSettings" type="button" class="atlas-graph-btn" aria-label="图谱设置" aria-controls="atlasGraphOptions" aria-expanded="false" title="设置">⚙</button>
         </div>
       </div>
+      <div id="atlasGraphOptions" class="atlas-graph-options" hidden>
+        <label class="atlas-graph-option"><input id="atlasGraphLocalToggle" type="checkbox"> 局部图谱</label>
+        <label class="atlas-graph-option"><input id="atlasGraphDatesToggle" type="checkbox" checked> 显示日期节点</label>
+        <label class="atlas-graph-option"><input id="atlasGraphLabelsToggle" type="checkbox"> 显示更多标签</label>
+        <label class="atlas-graph-slider"><span>局部深度</span><input id="atlasGraphDepth" type="range" min="1" max="3" step="1" value="2"></label>
+        <label class="atlas-graph-slider"><span>节点大小</span><input id="atlasGraphNodeSize" type="range" min=".5" max="2.1" step=".1" value="1"></label>
+        <label class="atlas-graph-slider"><span>斥力</span><input id="atlasGraphRepel" type="range" min=".3" max="2.6" step=".1" value="1"></label>
+        <label class="atlas-graph-slider"><span>连线距离</span><input id="atlasGraphDistance" type="range" min=".4" max="2.2" step=".1" value="1"></label>
+      </div>
       <div id="atlasGraphViewport" class="atlas-graph-viewport">
-        <canvas id="atlasGraphCanvas" role="img" aria-label="互动式关系图：个人成长节点连接学习、科研、项目、社团和生活，以及它们各自的知识主题。使用下方分类按钮或搜索框选择节点。"></canvas>
-        <div class="atlas-graph-help">拖动节点或画布 · 滚轮缩放 · 点击查看关联记录</div>
+        <canvas id="atlasGraphCanvas" role="img" aria-label="互动关系图谱：小圆点代表独立活动、知识点、学科或日期；线条代表实际记录关系。点击、拖动、搜索和缩放以探索。"></canvas>
+        <div id="atlasGraphTooltip" class="atlas-graph-tooltip" hidden></div>
+        <div class="atlas-graph-help">移动画布：拖动空白 · 拖动节点调整位置 · 滚轮缩放</div>
       </div>
-      <div id="atlasGraphLegend" class="atlas-graph-legend" aria-label="选择知识图谱类别"></div>
-      <div id="atlasGraphDetail" class="atlas-graph-detail" aria-live="polite">
-        <span class="atlas-graph-empty">选择节点，查看相关活动与记录日期</span>
-      </div>
+      <div id="atlasGraphLegend" class="atlas-graph-legend" aria-label="筛选图谱类别"></div>
+      <div id="atlasGraphDetail" class="atlas-graph-detail" aria-live="polite"><span class="atlas-graph-empty">点击节点查看关联记录</span></div>
     </div>
   </section>
   <div class="learning-heading"><div><div class="eyebrow">LEARNING JOURNAL / EVIDENCE-BASED</div><h3>学习投入 · 多还是少？</h3><p>用可核查的学习活跃天数与学习主题数衡量记录密度，不将对话数量当作学习时长。</p></div><div class="period-switch"><button class="active" id="scopeAll">全部时间</button><button id="scopeMonth">当前月份</button></div></div>
@@ -595,6 +607,7 @@ function download(filename,contents){const b=new Blob([contents],{type:'applicat
 async function pullFeed(){const url=document.getElementById('feedUrl').value.trim();const status=document.getElementById('syncStatus');if(!url){status.textContent='● 尚未连接在线更新源';return}if(!/^https:\/\//i.test(url)){notify('更新源必须是 HTTPS 地址');return}status.textContent='● 正在读取更新源…';try{const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const value=await r.json(),result=mergeJson(value);status.textContent=`● 最近成功同步：${new Date().toLocaleString('zh-CN')}（新增 ${result.add} 条）`;notify(`同步成功，新增 ${result.add} 条记录`)}catch(e){status.textContent='● 无法同步：请检查 URL、访问权限和 CORS';notify('在线同步失败；本地历史数据未改变')}}
 function init(){document.getElementById('todayDate').textContent=new Intl.DateTimeFormat('zh-CN',{year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(new Date());document.querySelectorAll('.navbtn').forEach(el=>el.onclick=()=>setPane(el.dataset.pane));document.getElementById('subnavNew').onclick=()=>document.getElementById('newEntry').click();document.getElementById('prevMonth').onclick=()=>{dateView=new Date(dateView.getFullYear(),dateView.getMonth()-1,1);render()};document.getElementById('nextMonth').onclick=()=>{dateView=new Date(dateView.getFullYear(),dateView.getMonth()+1,1);render()};document.getElementById('goToday').onclick=()=>{chosen=today();dateView=new Date();dateView.setDate(1);render()};document.getElementById('search').oninput=e=>{search=e.target.value.trim().toLowerCase();render()};document.getElementById('newEntry').onclick=()=>openEditor(null,chosen);document.getElementById('editorCancel').onclick=()=>showModal('editorBackdrop',false);document.getElementById('editorSave').onclick=saveEditor;document.getElementById('entryCategory').onchange=updateEditorFields;document.getElementById('scopeAll').onclick=()=>{insightScope='all';renderInsights()};document.getElementById('scopeMonth').onclick=()=>{insightScope='month';renderInsights()};document.getElementById('importBtn').onclick=()=>showModal('importBackdrop',true);document.getElementById('importCancel').onclick=()=>showModal('importBackdrop',false);document.getElementById('importSave').onclick=()=>{try{const result=mergeJson(decodeJson(document.getElementById('importText').value));showModal('importBackdrop',false);document.getElementById('importText').value='';notify(`导入成功：新增 ${result.add} 条，补充 ${result.update} 条`)}catch(e){notify('导入失败：'+e.message)}};for(const id of ['editorBackdrop','importBackdrop'])document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)showModal(id,false)});document.addEventListener('keydown',e=>{if(e.key==='Escape'){showModal('editorBackdrop',false);showModal('importBackdrop',false)}});document.getElementById('exportBtn').onclick=()=>download(`growth-atlas-backup-${today()}.json`,JSON.stringify({version:1,exportedAt:new Date().toISOString(),entries:data},null,2));document.getElementById('importFileBtn').onclick=()=>document.getElementById('filePicker').click();document.getElementById('filePicker').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{const result=mergeJson(JSON.parse(await file.text()));notify(`备份合并成功：新增 ${result.add} 条记录`)}catch(err){notify('文件导入失败：'+err.message)}e.target.value=''};document.getElementById('weekPrev').onclick=()=>{weekCursor.setDate(weekCursor.getDate()-7);renderWeek()};document.getElementById('weekNext').onclick=()=>{weekCursor.setDate(weekCursor.getDate()+7);renderWeek()};try{document.getElementById('feedUrl').value=localStorage.getItem(FEED_KEY)||''}catch(err){document.getElementById('feedUrl').value=''};document.getElementById('saveFeed').onclick=()=>{try{localStorage.setItem(FEED_KEY,document.getElementById('feedUrl').value.trim());notify('在线更新源地址已保存')}catch(e){notify('无法保存地址')}};document.getElementById('syncFeed').onclick=pullFeed;render();if(document.getElementById('feedUrl').value)pullFeed();document.addEventListener('visibilitychange',()=>{if(!document.hidden&&document.getElementById('feedUrl').value.trim())pullFeed()})}
 init();
+if(new URLSearchParams(location.search).get('view')==='insights')setPane('insights');
 </script>
 
 <script>
@@ -665,5 +678,5 @@ init();
   renderActualWeek();
 })();
 </script>
-<script src="./graph.js?v=1"></script>
+<script src="./graph.js?v=2"></script>
 </body></html>
