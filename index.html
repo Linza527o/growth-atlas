@@ -162,7 +162,7 @@ document.getElementById("loginForm").addEventListener("submit",async e=>{
  try{
    const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(document.getElementById("password").value));
    const sum=Array.from(new Uint8Array(buf),v=>v.toString(16).padStart(2,"0")).join("");
-   if(sum===ACCESS_HASH){sessionStorage.setItem(ACCESS_KEY,ACCESS_HASH);location.replace("./calendar.html");return;}
+   if(sum===ACCESS_HASH){sessionStorage.setItem(ACCESS_KEY,ACCESS_HASH);location.replace(new URLSearchParams(location.search).get("view")==="insights"?"./calendar.html?view=insights":"./calendar.html");return;}
    msg.textContent="密码错误，请重新输入。";document.getElementById("password").select();
  }catch(err){msg.textContent="验证失败，请检查浏览器设置并使用 HTTPS 地址访问。"}
  finally{btn.disabled=false;}
